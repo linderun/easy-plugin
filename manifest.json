@@ -1,0 +1,56 @@
+{
+  "name": "EasyErp助手",
+  "short_name": "collect",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "description": "EasyErp助手，支持多平台采集，采集后可发布到多平台多店铺。",
+  "icons": {
+    "128": "images/48.png",
+    "48": "images/48.png",
+    "16": "images/48.png"
+  },
+  "content_scripts": [
+    {
+      "exclude_globs": [],
+      "exclude_matches": [],
+      "include_globs": [],
+      "css": [
+        "css/style.css",
+        "css/xcConfirm.css"
+      ],
+      "js": [
+        "js/lib/jquery-3.4.1.min.js",
+        "js/lib/xcConfirm.js",
+        "js/lib/config.js",
+        "js/lib/html.js",
+        "js/application.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "browser_action": {
+    "default_title": "EasyErp助手",
+    "default_icon": "images/48.png"
+  },
+  "permissions": [
+    "http://*/*",
+    "https://*/*",
+    "notifications",
+    "contextMenus",
+    "tabs",
+    "activeTab",
+    "storage"
+  ],
+  "web_accessible_resources": [
+    "images/48.png"
+  ],
+  "background": {
+    "scripts": [
+      "js/background.js"
+    ]
+  }
+}
