@@ -40,6 +40,10 @@ var App = {
                     this.sendMessageToBackground('createMenu', {'type': 'singleCrawl'}, function (response) {
                         console.info('createMenu:', response);
                     });
+                } else if (this.currentUrl.indexOf('www.aliexpress.com/wholesale') !== -1 || this.currentUrl.indexOf('www.aliexpress.com/w/wholesale') !== -1 || this.currentUrl.indexOf('www.aliexpress.com/category') !== -1 || this.currentUrl.indexOf('aliexpress.com/store/') !== -1) {
+                    this.sendMessageToBackground('createMenu', {'type': 'searchCrawl'}, function (response) {
+                        console.info('createMenu:', response);
+                    });
                 }
                 break;
             case '1688':
@@ -55,9 +59,10 @@ var App = {
 
     onMessageAddListener: function () {
         chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-            message.html = $("html").html();
             if (message.type == 'singleCrawl') {
                 Crawl.singleCrawl(message);
+            } else if (message.type == 'searchCrawl') {
+                Crawl.searchCrawl(message);
             } else {
                 console.info('message:', message);
             }

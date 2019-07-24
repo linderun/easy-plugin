@@ -38,6 +38,28 @@ var Crawl = {
         });
     },
 
+    searchCrawl: function (info) {
+        var crawlObj = Crawl.getCrawlObject(info.type, info.url);
+        crawlObj && crawlObj.crawl(info.url, function (data) {  // 回调函数
+            if (data.list && data.list.length > 0) {
+                if (data.url.indexOf("aliexpress.com") > 0) {
+                    for (var i in data.list) {
+                        setTimeout(function () {
+                            Crawl.singleCrawl({type: "singleCrawl", url: data.list[i]});
+                        }, i * 1000);
+                    }
+                } else {
+                    for (var i in data.list) {
+                        Crawl.singleCrawl({type: "singleCrawl", url: data.list[i]});
+                    }
+                }
+            }
+            if (data.next) {
+                Crawl.searchCrawl({type: "searchCrawl", url: data.next});
+            }
+        });
+    },
+
     fillUrl: function (url, httpFlag) {
         if (url) {
             if (url.indexOf("http") == -1 && url.indexOf("HTTP") == -1) {

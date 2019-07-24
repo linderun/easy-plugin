@@ -70,12 +70,17 @@ var SmtCategoryCrawl = {
                 data.next = "";
                 var div = $('<div></div>');
                 div.html(data.html);
-                div.find("div.m-o-large-all-detail li.item div.detail h3 a").each(function () {
+                var searchKey = div.find("#search-key").val(),
+                    apiUrl = 'https://www.aliexpress.com/glosearch/api/product?SearchText=' + encodeURI(searchKey) + '&page=1';
+                //https://www.aliexpress.com/glosearch/api/product?SearchText=sex+doll&page=1
+                console.info('apiUrl:', apiUrl);
+
+                div.find("div.gallery-wrap product-list li.list-item div.place-container a").each(function () {
                     data.list.push(Crawl.fillUrl($(this).attr("href"), true));
                 });
 
                 // 取下一页
-                var nextUrl = div.find("div.ui-pagination-navi a.ui-pagination-next").attr("href");
+                var nextUrl = div.find("div.next-pagination-pages button.next-pagination-item").attr("href");
 
                 nextUrl && (data.next = Crawl.fillUrl(nextUrl, true));
                 div.remove();
