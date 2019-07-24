@@ -2,25 +2,25 @@
  * app
  */
 var App = {
-    /**
-     * 初始化
-     */
+    // 初始化
     init: function () {
         if (!this.checkUrl()) {
             return false;
         }
 
-        this.createMenu();
+        this.initMenu();
 
         this.onMessageAddListener();
     },
 
+    // 销毁
     restore: function () {
         this.sendMessageToBackground('removeMenu', function (response) {
             console.info('removeMenu:', response);
         });
     },
 
+    // 检查当前链接是否满足加载插件
     checkUrl: function () {
         this.currentUrl = location.href;
         var platform = Config.platform();
@@ -33,11 +33,11 @@ var App = {
         return false;
     },
 
-    createMenu: function () {
+    initMenu: function () {
         switch (this.currentPlatform) {
             case 'aliexpress':
                 if (this.currentUrl.indexOf('aliexpress.com/item/') !== -1 || this.currentUrl.indexOf('store/product') !== -1 || this.currentUrl.indexOf('aliexpress.com?spm') !== -1) {
-                    this.sendMessageToBackground('createMenu', {'type': 'single'}, function (response) {
+                    this.sendMessageToBackground('createMenu', {'type': 'singleCrawl'}, function (response) {
                         console.info('createMenu:', response);
                     });
                 }
@@ -55,28 +55,30 @@ var App = {
 
     onMessageAddListener: function () {
         chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-            var html = $("html").html();
-            var url = message.url;
-            var data = {url: url, html: html, type: "rightCrawl"};
-            console.info(data);
+            message.html = $("html").html();
+            if (message.type == 'singleCrawl') {
+                Crawl.singleCrawl(message);
+            } else {
+                console.info('message:', message);
+            }
         });
     },
 
     currentUrl: '',
 
     currentPlatform: '',
-}
+};
 
-
+// 执行
 $(document).ready(function () {
     App.init();
 
-    document.addEventListener('visibilitychange', function () {
+    /*document.addEventListener('visibilitychange', function () {
         if (document.hidden) {
             App.restore();
         } else {
             App.init();
         }
         console.log('document.hidden:', document.hidden);
-    });
+    });*/
 });

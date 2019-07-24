@@ -20,9 +20,10 @@
       ],
       "js": [
         "js/lib/jquery-3.4.1.min.js",
-        "js/lib/xcConfirm.js",
         "js/lib/config.js",
         "js/lib/html.js",
+        "js/lib/platform.js",
+        "js/lib/crawl.js",
         "js/application.js"
       ],
       "matches": [
