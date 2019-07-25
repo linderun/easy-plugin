@@ -1,0 +1,66 @@
+﻿.easy-alert {
+    position: fixed;
+    left: 50%;
+    right: auto;
+    top: 0;
+    margin-left: -350px !important;
+    padding: 0 20px;
+    width: 700px;
+    height: 35px;
+    color: #fff;
+    background-color: #3c763d;
+    line-height: 35px;
+    z-index: 10000000000000000;
+    font-size: 18px;
+    text-align: center;
+    background: rgba(94, 185, 94, .95);
+}
+
+.easy-alert.easy-alert-danger {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    margin-left: 0 !important;
+    padding: 0 20px;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    z-index: 10000000000000000;
+    font-size: 18px;
+    text-align: center;
+    color: #fff !important;
+    background-color: #f96;
+}
+
+.easy-alert.easy-alert-success {
+    color: #fff !important;
+}
+
+.easy-alert .easy-alert-success a {
+    color: #428bca !important;
+}
+
+.easy-alert.easy-alert-success a:hover {
+    color: #235270 !important;
+}
+
+.easy-alert .easy-close {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.easy-alert.easy-alert-danger .easy-close {
+    position: absolute;
+    top: 0;
+    right: 50px;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.easy-alert.easy-alert-danger .easy-close {
+    line-height: 77px;
+}
