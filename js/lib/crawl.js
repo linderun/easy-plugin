@@ -28,12 +28,19 @@ var Crawl = {
 
     singleCrawl: function (info) {
         var crawlObj = Crawl.getCrawlObject(info.type, info.url);
-        crawlObj && crawlObj.crawl(info.url, function (data) {
-            console.info('data:', data);
+        if (!crawlObj) {
+            Message.warning('找不到采集对象：' + App.currentPlatform);
+            return false;
+        }
+        Message.success('正在采集中，请稍后...');
+        crawlObj.crawl(info.url, function (data) {
             if (data.html) {
                 Html.postHtml(Config.url.postHtml(), data, 0, function (result) {
+                    result.code === 0 ? Message.success(result.msg) : Message.error(result.msg);
                     console.info('result:', result);
                 });
+            } else {
+                Message.warning('Oh，采集不到数据，请检查页面元素是否改变了.');
             }
         });
     },

@@ -66,17 +66,8 @@ var Html = {
             dataType: "json",
             success: function (data) {
                 callback(data);
-            }, error: function () {//增加访问出错信息返回
-                callback({"code": 0, "msg": ""});
-            },
-            complete: function (XMLHttpRequest, status) {
-                if (status == 'error') {
-                    callback({"code": -1, "msg": "请求出错"});
-                } else if (status == 'parsererror') {
-                    callback({"code": -1, "msg": "您的EasyERP账号sk请先登录"});
-                } else if (status == 'timeout') {
-                    callback({"code": 0, "msg": ""});
-                }
+            }, error: function (res) {//增加访问出错信息返回
+                callback({"code": 0, "msg": res.statusText});
             }
         });
     }

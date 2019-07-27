@@ -15,8 +15,7 @@
       "exclude_matches": [],
       "include_globs": [],
       "css": [
-        "css/style.css",
-        "css/xcConfirm.css"
+        "css/style.css"
       ],
       "js": [
         "js/lib/jquery-3.4.1.min.js",
