@@ -40,6 +40,7 @@ var SmtCrawl = {
         }
         Html.getHtml(url, 0, function (data) {
             data.url = url;
+            data.platform = App.currentPlatform;
             if (data.html) {
                 var descUrl = '';
                 if (type) {
