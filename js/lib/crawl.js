@@ -47,13 +47,19 @@ var Crawl = {
 
     searchCrawl: function (info) {
         var crawlObj = Crawl.getCrawlObject(info.type, info.url);
-        crawlObj && crawlObj.crawl(info.url, function (data) {  // 回调函数
+        var dataConfig = {
+            "url": info.url,
+            "list": [],
+            "next": false,
+            "page": 1,
+        };
+        var crawlCallBack = function (data) {
             if (data.list && data.list.length > 0) {
                 if (data.url.indexOf("aliexpress.com") > 0) {
                     for (var i in data.list) {
                         setTimeout(function () {
                             Crawl.singleCrawl({type: "singleCrawl", url: data.list[i]});
-                        }, i * 1000);
+                        }, i * 2000);
                     }
                 } else {
                     for (var i in data.list) {
@@ -62,9 +68,10 @@ var Crawl = {
                 }
             }
             if (data.next) {
-                Crawl.searchCrawl({type: "searchCrawl", url: data.next});
+                crawlObj.crawl(data, crawlCallBack);
             }
-        });
+        };
+        crawlObj && crawlObj.crawl(dataConfig, crawlCallBack);
     },
 
     fillUrl: function (url, httpFlag) {

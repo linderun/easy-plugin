@@ -19,6 +19,7 @@
       ],
       "js": [
         "js/lib/jquery-3.4.1.min.js",
+        "js/lib/common.js",
         "js/lib/message.js",
         "js/lib/config.js",
         "js/lib/html.js",

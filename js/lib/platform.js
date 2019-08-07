@@ -64,33 +64,29 @@ var SmtCrawl = {
 
 var SmtCategoryCrawl = {
 
-    crawl: function (url, callback) {
-        Html.getHtml(url, 0, function (data) {
-            if (data.html) {
-                data.list = [];
-                data.next = "";
-                var div = $('<div></div>');
-                div.html(data.html);
-                var searchKey = div.find("#search-key").val(),
-                    apiUrl = 'https://www.aliexpress.com/glosearch/api/product?SearchText=' + encodeURI(searchKey) + '&page=1';
-                //https://www.aliexpress.com/glosearch/api/product?SearchText=sex+doll&page=1
-                console.info('apiUrl:', apiUrl);
+    crawl: function (data, callback) {
+        var apiUrl = 'https://www.aliexpress.com/glosearch/api/product?';
+        apiUrl = Common.deleteUrlQueryParam('page', apiUrl, data.url);
+        console.info('apiUrl:', apiUrl);
 
-                div.find("div.gallery-wrap product-list li.list-item div.place-container a").each(function () {
-                    data.list.push(Crawl.fillUrl($(this).attr("href"), true));
-                });
+        Html.getData(apiUrl + '&page=' + data.page, 1, function (res) {
+            var json = JSON.parse(res.html.replace(/&quot;/g, '"'));
+            // console.info(json);
 
-                // 取下一页
-                var nextUrl = div.find("div.next-pagination-pages button.next-pagination-item").attr("href");
-
-                nextUrl && (data.next = Crawl.fillUrl(nextUrl, true));
-                div.remove();
-
-                callback(data);
+            // 总页数
+            var totalPage = Math.ceil(json.resultCount / json.resultSizePerPage);
+            if (data.page < totalPage && data.page < 2) {
+                data.next = true;
             } else {
-                data.html = "";
-                callback(data);
+                data.next = false;
             }
+            data.page++;
+
+            $.each(json.items, function (i, v) {
+                data.list.push(Crawl.fillUrl(v.productDetailUrl, true));
+            });
+
+            callback(data);
         });
     }
 };
