@@ -16,7 +16,7 @@ var Html = {
                 if (status == 'timeout') {
                     try_times >= 3 ? callback({html: ""}) :
                         setTimeout(function () {
-                            this.getHtml(url, (try_times + 1), callback);
+                            Html.getHtml(url, (try_times + 1), callback);
                         }, 5000);
                 } else if (status == 'parsererror') {
                     var data = XMLHttpRequest.responseText;
@@ -43,7 +43,7 @@ var Html = {
                 if (status == 'timeout') {
                     try_times >= 3 ? callback({html: ""}) :
                         setTimeout(function () {
-                            this.getData(url, (try_times + 1), callback)
+                            Html.getData(url, (try_times + 1), callback)
                         }, 5000);
                 } else if (status == 'parsererror') {
                     var data = XMLHttpRequest.responseText;

@@ -46,32 +46,20 @@ var Crawl = {
     },
 
     searchCrawl: function (info) {
-        var crawlObj = Crawl.getCrawlObject(info.type, info.url);
+        var searchCrawlObj = Crawl.getCrawlObject(info.type, info.url);
         var dataConfig = {
             "url": info.url,
             "list": [],
             "next": false,
             "page": 1,
         };
-        var crawlCallBack = function (data) {
+        searchCrawlObj && searchCrawlObj.crawl(dataConfig, function (data) {
             if (data.list && data.list.length > 0) {
-                if (data.url.indexOf("aliexpress.com") > 0) {
-                    for (var i in data.list) {
-                        setTimeout(function () {
-                            Crawl.singleCrawl({type: "singleCrawl", url: data.list[i]});
-                        }, i * 2000);
-                    }
-                } else {
-                    for (var i in data.list) {
-                        Crawl.singleCrawl({type: "singleCrawl", url: data.list[i]});
-                    }
+                for (var i in data.list) {
+                    Crawl.singleCrawl({type: "singleCrawl", url: data.list[i]});
                 }
             }
-            if (data.next) {
-                crawlObj.crawl(data, crawlCallBack);
-            }
-        };
-        crawlObj && crawlObj.crawl(dataConfig, crawlCallBack);
+        });
     },
 
     fillUrl: function (url, httpFlag) {

@@ -75,7 +75,7 @@ var SmtCategoryCrawl = {
 
             // 总页数
             var totalPage = Math.ceil(json.resultCount / json.resultSizePerPage);
-            if (data.page < totalPage && data.page < 2) {
+            if (data.page < totalPage && data.page < 10) {
                 data.next = true;
             } else {
                 data.next = false;
@@ -87,6 +87,10 @@ var SmtCategoryCrawl = {
             });
 
             callback(data);
+
+            if (data.next) {
+                SmtCategoryCrawl.crawl(data, callback);
+            }
         });
     }
 };
