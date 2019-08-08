@@ -2,7 +2,7 @@ var Config = {
     url: {
         //域名
         domain: function () {
-            return "https://localhost";
+            return "https://easyerp.linderun.com";
         },
 
         //请求后台
